@@ -1,12 +1,13 @@
 import requests
 import os
 import lib.koshi8bit.easy_living as el
-import random
+import subprocess
 
 
 def git_clone(url: str):
     cmd = f"git clone {url}"
-    os.system(cmd)
+    subprocess.run(["git", "clone", url], check=True)
+    # os.system(cmd)
     return True
 
 
@@ -44,13 +45,10 @@ def main():
     os.chdir(root_folder)
 
     api_url = f"https://api.github.com/users/{user_name}/repos?per_page=1000"
-    try:
-        print("Trying to request..")
-        response = requests.get(api_url)
-        parce_response(response)
-    except Exception as e:
-        print(f"Error: {str(e)}")
-
+    print("Trying to request..")
+    response = requests.get(api_url)
+    parce_response(response)
+    
 
 if __name__ == '__main__':
     main()
