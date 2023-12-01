@@ -6,9 +6,12 @@ import validators
 
 
 def git_clone(url: str):
-    cmd = f"git clone {url}"
+    tmp = url.split("/")
+    user = tmp[-2]
+    repo = tmp[-1]
+    if el.Utils.dir_exist(repo):
+        raise ValueError("Repo is already exists")
     subprocess.run(["git", "clone", url], check=True)
-    # os.system(cmd)
     return True
 
 
@@ -58,7 +61,8 @@ def main():
     os.chdir(root_folder)
 
     if is_url:
-        subprocess.run(["git", "clone", user_name_or_url], check=True)
+        # subprocess.run(["git", "clone", user_name_or_url], check=True)
+        git_clone(user_name_or_url)
     else:
         api_url = f"https://api.github.com/users/{user_name}/repos?per_page=1000"
         print("Trying to request..")
